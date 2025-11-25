@@ -5,6 +5,7 @@ import 'dotenv/config';
 import { connectMongoDB } from './db/connectMongoDB.js';
 import { logger } from './middleware/logger.js';
 import { notFoundHandler } from './middleware/notFoundHandler.js';
+import { errors } from 'celebrate';
 import { errorHandler } from './middleware/errorHandler.js';
 import studentsRoutes from './routes/studentsRoutes.js';
 
@@ -27,6 +28,9 @@ app.get('/test-error', (req, res) => {
 
 // 404 — якщо маршрут не знайдено
 app.use(notFoundHandler);
+
+// обробка помилок від celebrate (валідація)
+app.use(errors());
 
 // Error — якщо під час запиту виникла помилка
 app.use(errorHandler);
