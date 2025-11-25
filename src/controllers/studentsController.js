@@ -4,6 +4,7 @@ import { Student } from '../models/student.js';
 import createHttpError from 'http-errors';
 
 // Отримати список усіх студентів
+
 export const getStudents = async (req, res) => {
   const students = await Student.find();
   res.status(200).json(students);
