@@ -12,9 +12,10 @@ import { celebrate } from 'celebrate';
 import { createStudentSchema } from '../validations/studentsValidation.js';
 import { studentIdParamSchema } from '../validation/studentsValidation.js';
 import { updateStudentSchema } from '../validations/studentsValidation.js';
+import { getStudentsSchema } from '../validation/studentsValidation.js';
 
 const router = Router();
-router.get('/students', getStudents);
+router.get('/students', celebrate(getStudentsSchema), getStudents);
 
 router.get(
   '/students/:studentId',

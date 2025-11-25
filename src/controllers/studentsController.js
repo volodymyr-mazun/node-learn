@@ -6,8 +6,15 @@ import createHttpError from 'http-errors';
 // Отримати список усіх студентів
 
 export const getStudents = async (req, res) => {
-  const students = await Student.find();
-  res.status(200).json(students);
+  const { page = 1, perPage = 10 } = req.query; //Дістаємо з req.query два параметри
+  const skip = (page - 1) * perPage; //Вираховуємо, скільки документів пропустити (page=3, perPage=10 → skip = 20)
+  const studentsQuery = await Student.find(); //Створює базовий запит до колекції Student.
+  const [totalItems, students] = await Promise.all([
+    studentsQuery.clone().countDocuments(), //Клонуємо запит, щоб не зламати основ. countDocuments() рахує, скільки всього студентів
+    studentsQuery.skip(skip).limit(perPage), //базовий запит, але обмежений: пропускає skip і бере perPage.
+  ]);
+  const totalPages = Math.ceil(totalItems / perPage);
+  res.status(200).json({ page, perPage, totalItems, totalPages, students });
 };
 
 // Отримати одного студента за id
