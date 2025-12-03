@@ -15,8 +15,10 @@ import { updateStudentSchema } from '../validations/studentsValidation.js';
 import { getStudentsSchema } from '../validation/studentsValidation.js';
 
 const router = Router();
+//Схема пагінації та контролер
 router.get('/students', celebrate(getStudentsSchema), getStudents);
 
+//Схума валідації ID
 router.get(
   '/students/:studentId',
   celebrate(studentIdParamSchema),

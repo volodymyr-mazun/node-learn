@@ -9,6 +9,7 @@ export const getStudents = async (req, res) => {
   const { page = 1, perPage = 10 } = req.query; //Дістаємо з req.query два параметри
   const skip = (page - 1) * perPage; //Вираховуємо, скільки документів пропустити (page=3, perPage=10 → skip = 20)
   const studentsQuery = await Student.find(); //Створює базовий запит до колекції Student.
+
   const [totalItems, students] = await Promise.all([
     studentsQuery.clone().countDocuments(), //Клонуємо запит, щоб не зламати основ. countDocuments() рахує, скільки всього студентів
     studentsQuery.skip(skip).limit(perPage), //базовий запит, але обмежений: пропускає skip і бере perPage.
